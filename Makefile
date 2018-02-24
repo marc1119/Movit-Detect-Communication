@@ -1,5 +1,5 @@
-CFLAGS=-Wall -ggdb -I lib -I lib/cpp
-LDFLAGS=-Llib lib/cpp/libmosquittopp.so.1 lib/libmosquitto.so.1
+CFLAGS=-Wall -ggdb -I lib -I lib/mosquitto_broker/cpp
+LDFLAGS=-Llib lib/mosquitto_broker/cpp/libmosquittopp.so.1 lib/mosquitto_broker/libmosquitto.so.1
 
 .PHONY: all clean
 
@@ -11,7 +11,7 @@ mqtt_mosquitto_broker : main.o mosquitto_broker.o
 main.o : main.cpp
 	${CXX} -c $^ -o $@ ${CFLAGS}
 
-mosquitto_broker.o : mosquitto_broker.cpp
+mosquitto_broker.o : mosquitto_broker/mosquitto_broker.cpp
 	${CXX} -c $^ -o $@ ${CFLAGS}
 
 clean : 

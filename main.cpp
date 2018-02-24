@@ -1,4 +1,5 @@
-#include "mosquitto_broker.h"
+#include <cstdio>
+#include "mosquitto_broker/mosquitto_broker.h"
 
 void sendAllData(MosquittoBroker *mosquittoBroker)
 {
@@ -7,7 +8,7 @@ void sendAllData(MosquittoBroker *mosquittoBroker)
 
 	if (mosquittoBroker->connect("localhost", port, keepAlive))
 	{
-		// Throw error ???
+		throw;
 	}
 	else
 	{
