@@ -1,23 +1,29 @@
-#include "action_listener.h"
+#include "mosquitto_broker.h"
+
+void sendAllData(MosquittoBroker *mosquittoBroker)
+{
+	int keepAlive = 60;
+	int port = 1883;
+	int isNotConnected = mosquittoBroker->connect("localhost", port, keepAlive);
+
+	if (isNotConnected)
+	{
+		// Throw error ???
+	}
+	else
+	{
+		mosquittoBroker->sendBackRestAngle(10);
+		mosquittoBroker->sendDistanceTraveled(1000);
+	}
+}
 
 int main(int argc, char *argv[])
 {
-	class action_listener *actionListener;
-	int rc;
-
 	mosqpp::lib_init();
 
-	actionListener = new action_listener("actionlistener", "localhost", 1883);
+	MosquittoBroker *mosquittoBroker = new MosquittoBroker("actionlistener");
 	
-	while(1)
-	{
-		rc = actionListener->loop();
-		
-		if(rc)
-		{
-			actionListener->reconnect();
-		}
-	}
+	sendAllData(mosquittoBroker);
 
 	mosqpp::lib_cleanup();
 
