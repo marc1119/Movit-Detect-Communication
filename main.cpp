@@ -2,11 +2,10 @@
 
 void sendAllData(MosquittoBroker *mosquittoBroker)
 {
-	int keepAlive = 60;
-	int port = 1883;
-	int isNotConnected = mosquittoBroker->connect("localhost", port, keepAlive);
+	const int keepAlive = 60;
+	const int port = 1883;
 
-	if (isNotConnected)
+	if (mosquittoBroker->connect("localhost", port, keepAlive))
 	{
 		// Throw error ???
 	}
@@ -22,7 +21,7 @@ int main(int argc, char *argv[])
 	mosqpp::lib_init();
 
 	MosquittoBroker *mosquittoBroker = new MosquittoBroker("actionlistener");
-	
+
 	sendAllData(mosquittoBroker);
 
 	mosqpp::lib_cleanup();
