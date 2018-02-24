@@ -7,7 +7,7 @@
 
 MosquittoBroker::MosquittoBroker(const char *id) : mosquittopp(id)
 {
-};
+}
 
 MosquittoBroker::~MosquittoBroker()
 {
