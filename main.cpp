@@ -3,10 +3,11 @@
 
 void sendAllData(MosquittoBroker *mosquittoBroker)
 {
+	const char * host = "localhost";
 	const int keepAlive = 60;
 	const int port = 1883;
 
-	if (mosquittoBroker->connect("localhost", port, keepAlive))
+	if (mosquittoBroker->connect(host, port, keepAlive))
 	{
 		throw;
 	}

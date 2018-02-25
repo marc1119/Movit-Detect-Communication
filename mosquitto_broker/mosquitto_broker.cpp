@@ -7,7 +7,10 @@
 
 MosquittoBroker::MosquittoBroker(const char *id) : mosquittopp(id)
 {
-	username_pw_set("admin", "admin");
+	const char *username = "benjamin";
+	const char *password = "movitplus";
+
+	username_pw_set(username, password);
 }
 
 MosquittoBroker::~MosquittoBroker()
