@@ -2,36 +2,23 @@
 #include <unistd.h>
 #include "mosquitto_broker/mosquitto_broker.h"
 
-void sendAllData(MosquittoBroker *mosquittoBroker)
+void sendDataToWebServer(MosquittoBroker *mosquittoBroker)
 {
-	const char * host = "localhost";
-	const int keepAlive = 60;
-	const int port = 1883;
-
-	if (mosquittoBroker->connect(host, port, keepAlive))
-	{
-		throw;
-	}
-	else
-	{
-		mosquittoBroker->sendBackRestAngle(10);
-		mosquittoBroker->sendDistanceTraveled(1000);
-	}
+	mosquittoBroker->sendBackRestAngle(10);
+	mosquittoBroker->sendDistanceTraveled(1000);
 }
 
 int main(int argc, char *argv[])
 {
-	mosqpp::lib_init();
-
 	MosquittoBroker *mosquittoBroker = new MosquittoBroker("actionlistener");
 
 	while (1)
 	{
-		sendAllData(mosquittoBroker);
+		sendDataToWebServer(mosquittoBroker);
 		usleep(2000000);
 	}
 
-	mosqpp::lib_cleanup();
+	delete mosquittoBroker;
 
 	return 0;
 }
