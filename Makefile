@@ -1,18 +1,20 @@
-CFLAGS=-Wall -ggdb -I lib -I lib/mosquitto_broker/cpp
-LDFLAGS=-Llib lib/mosquitto_broker/cpp/libmosquittopp.so.1 lib/mosquitto_broker/libmosquitto.so.1
+CFLAGS=-Wall -ggdb -Isrc/lib/mosquitto_broker -Isrc/lib/mosquitto_broker/cpp
+LDFLAGS=-Lsrc/lib/mosquitto_broker src/lib/mosquitto_broker/cpp/libmosquittopp.so.1 src/lib/mosquitto_broker/libmosquitto.so.1
 
-.PHONY: all clean
+SOURCES = 	src/main.cpp \
+			src/mosquitto_broker/mosquitto_broker.cpp \
+			src/lib/MPU6050.cpp \
+			src/lib/I2Cdev.cpp \
 
-all : mqtt_mosquitto_broker
+OBJECTS = $(SOURCES:%.c=%.o)
 
-mqtt_mosquitto_broker : main.o mosquitto_broker.o
-	${CXX} $^ -o $@ ${LDFLAGS}
+TARGET = movit-plus
 
-main.o : main.cpp
-	${CXX} -c $^ -o $@ ${CFLAGS}
+$(TARGET): $(OBJECTS)
+	gcc $^ -o $@ -lm -lbcm2835 -lstdc++ ${LDFLAGS}
 
-mosquitto_broker.o : mosquitto_broker/mosquitto_broker.cpp
-	${CXX} -c $^ -o $@ ${CFLAGS}
+%.o: %.c
+	gcc -c $< -o $@ ${CFLAGS}
 
-clean : 
-	-rm -f *.o mqtt_mosquitto_broker
+clean:
+	rm -rf *o $(TARGET)
