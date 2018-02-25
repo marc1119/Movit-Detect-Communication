@@ -1,12 +1,14 @@
 #include <cstdio>
+#include <unistd.h>
 #include "mosquitto_broker/mosquitto_broker.h"
 
 void sendAllData(MosquittoBroker *mosquittoBroker)
 {
+	const char * host = "localhost";
 	const int keepAlive = 60;
 	const int port = 1883;
 
-	if (mosquittoBroker->connect("localhost", port, keepAlive))
+	if (mosquittoBroker->connect(host, port, keepAlive))
 	{
 		throw;
 	}
@@ -23,7 +25,11 @@ int main(int argc, char *argv[])
 
 	MosquittoBroker *mosquittoBroker = new MosquittoBroker("actionlistener");
 
-	sendAllData(mosquittoBroker);
+	while (1)
+	{
+		sendAllData(mosquittoBroker);
+		usleep(2000000);
+	}
 
 	mosqpp::lib_cleanup();
 
